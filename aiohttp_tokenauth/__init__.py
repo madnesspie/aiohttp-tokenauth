@@ -1,0 +1,1 @@
+from aiohttp_tokenauth.middleware import token_auth_middleware
