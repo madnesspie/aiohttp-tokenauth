@@ -11,7 +11,7 @@ INSTALL_REQUIRES = [
 
 setuptools.setup(
     name='aiohttp-tokenauth',
-    version='0.0.1',
+    version='0.0.2',
     description='Simple way to add token auth level in your aiohttp app',
     platforms=['POSIX'],
     author='Alexander Polishchuk',
