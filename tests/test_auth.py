@@ -23,8 +23,8 @@ class TestExcluded:
         assert resp.status == 200
         assert await resp.json() == {}
 
-    async def test_reg_ex_path_without_token(self, cli):
-        resp = await cli.get('/exclude/john/orders')
+    async def test_regexes_path_without_token(self, cli):
+        resp = await cli.get('/exclude/someuser/info')
         assert resp.status == 200
         assert await resp.json() == {}
 

@@ -21,13 +21,13 @@ def cli(loop, aiohttp_client):
     app = web.Application(middlewares=[
         aiohttp_tokenauth.token_auth_middleware(
             user_loader=user_loader,
-            exclude_routes=('/exclude',),
+            exclude_routes=('/exclude', r'/exclude/\w+/info'),
             exclude_methods=('POST',),
         ),
     ])
     app.router.add_route('*', '/', example_resource)
     app.router.add_get('/exclude', example_resource)
-    app.router.add_get('/exclude/{user}/orders', example_resource)
+    app.router.add_get('/exclude/{user}/info', example_resource)
     return loop.run_until_complete(aiohttp_client(app))
 
 
