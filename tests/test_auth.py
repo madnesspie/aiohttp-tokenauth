@@ -1,16 +1,32 @@
+import aiohttp_tokenauth
 import pytest
 from aiohttp import web
-
-import aiohttp_tokenauth
 
 
 class TestHttpMethods:
 
-    @pytest.mark.parametrize('method', ['GET', 'POST', 'PUT', 'DELETE'])
+    @pytest.mark.parametrize('method', ['GET', 'PUT', 'DELETE'])
     async def test_http_methods(self, cli, method, token):
         resp = await cli.request(method, '/', headers={'Authorization': token})
         assert resp.status == 200
         assert await resp.json() == {'uuid': 'fake-uuid'}
+
+class TestExcluded:
+
+    async def test_method_without_token(self, cli):
+        resp = await cli.post('/')
+        assert resp.status == 200
+        assert await resp.json() == {}
+
+    async def test_path_without_token(self, cli):
+        resp = await cli.get('/exclude')
+        assert resp.status == 200
+        assert await resp.json() == {}
+
+    async def test_reg_ex_path_without_token(self, cli):
+        resp = await cli.get('/exclude/john/orders')
+        assert resp.status == 200
+        assert await resp.json() == {}
 
 
 class TestHttpExceptions:

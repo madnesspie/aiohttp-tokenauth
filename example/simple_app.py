@@ -15,7 +15,7 @@ async def init():
         It can check that token is exist in a database or some another place.
 
         Args:
-            token (str): A token from "Authorization" header.
+            token (str): A token from "Authorization" http header.
 
         Returns:
             Dict or something else. If the callback returns None then
