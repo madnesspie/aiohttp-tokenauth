@@ -66,10 +66,31 @@ $ curl http://0.0.0.0:8080
 401: Missing authorization header
 ```
 
-### Ignoring some routes
+### Ignoring routes and http methods
+You can ignore specific routes, app the paths to "exclude_routes".
+```python
+app = web.Application(middlewares=[
+    token_auth_middleware(
+        user_loader=user_loader,
+        # You can use regular expressions here
+        exclude_routes=('/exclude', r'/exclude/\w+/info'),
+        exclude_methods=('POST',),
+    ),
+])
+```
 
-### Ignoring some http methods
-
-### Change auth auth scheme
-
-### Change key for payload in request object
+### Change auth scheme
+For changing the scheme (prefix in "Authorization" header) use `auth_scheme` argument.
+```python
+app = web.Application(middlewares=[
+    token_auth_middleware(
+        user_loader=user_loader,
+        auth_scheme='Token',
+    ),
+])
+```
+Now such request is valid:
+```bash
+$ curl -H 'Authorization: Token fake-token' http://0.0.0.0:8080
+{"uuid": "fake-uuid"}
+```
